@@ -1,0 +1,10 @@
+config {
+ type: "declaration",
+ database: "personalhub3",
+ schema: "billing",
+ name: "gcp_billing_export_resource_v1_01F0C7_9A2082_488963"
+}
+
+
+
+-- Detailed Billing Export (gcp_billing_export_resource_v1_<suffix>): Includes resource-level cost and usage data, providing finer granularity.
