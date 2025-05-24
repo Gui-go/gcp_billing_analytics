@@ -1,0 +1,14 @@
+config {
+ database: dataform.projectConfig.defaultDatabase,
+ schema: "billing_" + dataform.projectConfig.vars.ENV,
+ name: "model_gemini",
+ description: "",
+ tags: [
+   "lifecycle:deactive"
+ ]
+}
+
+
+CREATE OR REPLACE MODEL `personalhub11.billing_dev.model_gemini`
+REMOTE WITH CONNECTION `US.my_cloud_resource_connection`
+OPTIONS(endpoint = 'projects/personalhub11/locations/us/connections/my_cloud_resource_connection')

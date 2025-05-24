@@ -1,0 +1,16 @@
+config {
+    type: "table",
+    database: dataform.projectConfig.defaultDatabase,
+    schema: "billing_" + dataform.projectConfig.vars.ENV,
+    name: "cloud_pricing",
+    description: "",
+    tags: [
+        "stage:to_be_difined",
+        "lifecycle:deactive"
+    ]
+}
+
+SELECT
+  *
+FROM
+  ${ref("gcp-billing-dump1", "billing_dump", "cloud_pricing_export")}

@@ -1,0 +1,16 @@
+config {
+    type: "table",
+    database: dataform.projectConfig.defaultDatabase,
+    schema: "billing_" + dataform.projectConfig.vars.ENV,
+    name: "billing_detailed",
+    description: "",
+    tags: [
+        "stage:to_be_difined",
+        "lifecycle:deactive"
+    ]
+}
+
+SELECT
+  *
+FROM
+  ${ref("gcp-billing-dump1", "billing_dump", "gcp_billing_export_resource_v1_01F0C7_9A2082_488963")}
