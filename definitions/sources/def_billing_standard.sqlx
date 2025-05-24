@@ -1,7 +1,7 @@
 config {
  type: "declaration",
- database: "personalhub3",
- schema: "billing",
+ database: "gcp-billing-dump1",
+ schema: "billing_dump",
  name: "gcp_billing_export_v1_01F0C7_9A2082_488963"
 }
 

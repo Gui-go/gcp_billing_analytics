@@ -1,6 +1,6 @@
-defaultProject: proj
-defaultLocation: EU
-defaultDataset: dataset/schema
+defaultProject: gcp_billing_analytics
+defaultLocation: US
+defaultDataset: personalhub11
 defaultAssertionDataset: dataform_assertions
 dataformCoreVersion: 3.0.0
 vars:

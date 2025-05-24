@@ -1,0 +1,82 @@
+config {
+ type: "table",
+ database: dataform.projectConfig.defaultDatabase,
+ schema: "billing_" + dataform.projectConfig.vars.ENV,
+ name: "genai_suggestions",
+ description: "Gemini AI suggestions to optimise GCP cloud consumption",
+ tags: [
+   "lifecycle:deactive"
+ ]
+}
+
+-- SELECT * 
+-- FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "clean_billing_standard")}
+
+
+
+
+
+
+WITH aaa AS (
+ SELECT
+   invoice_month,
+   Billing_account_name,
+   billing_account_id,
+   Organization,
+   Status,
+   Account_type,
+   project_id,
+   project_number,
+   service,
+   SUM(costs) AS costs,
+   SUM(cost_at_list) AS cost_at_list,
+   SUM(credits) AS credits,
+   SUM(total_ek) AS total_ek,
+   SUM(total_exact) AS total_exact,
+   SUM(cpl_discount_calculated) AS cpl_discount_calculated,
+   SUM(CPL_Discount) AS CPL_Discount
+ FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "clean_billing_standard")}
+ WHERE invoice_month = FORMAT_DATE('%Y%m', DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 MONTH))
+ GROUP BY invoice_month, Billing_account_name, billing_account_id, Organization, Status, Account_type, project_id, project_number, service
+),
+bbb AS (
+ SELECT
+   invoice_month,
+   Billing_account_name,
+   billing_account_id,
+   Organization,
+   Status,
+   Account_type,
+   project_id,
+   project_number,
+   SUM(costs) AS total_costs,
+   SUM(cost_at_list) AS total_cost_at_list,
+   SUM(credits) AS total_credits,
+   SUM(total_ek) AS total_total_ek,
+   SUM(total_exact) AS total_total_exact,
+   SUM(cpl_discount_calculated) AS total_cpl_discount_calculated,
+   SUM(CPL_Discount) AS total_CPL_Discount,
+   STRING_AGG(service || ' (Cost: ' || CAST(ROUND(costs, 2) AS STRING) || ', cost_at_list: ' || CAST(ROUND(cost_at_list, 2) AS STRING) || ', credits: ' || CAST(ROUND(credits, 2) AS STRING) || ', reseller_margin: ' || CAST(ROUND(reseller_margin, 2) AS STRING) || ', total_ek: ' || CAST(ROUND(total_ek, 2) AS STRING) ||  ', total_exact: ' || CAST(ROUND(total_exact, 2) AS STRING) ||  ', cpl_discount_calculated: ' || CAST(ROUND(cpl_discount_calculated, 2) AS STRING) || ', cpl_discount_calculated: ' || CAST(ROUND(cpl_discount_calculated, 2) AS STRING) || ')', ', ') AS service_overview
+ FROM aaa
+ WHERE invoice_month = FORMAT_DATE('%Y%m', DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 MONTH))
+ GROUP BY invoice_month, Billing_account_name, billing_account_id, Organization, Status, Account_type, project_id, project_number
+ ORDER BY invoice_month DESC
+),
+ccc AS (
+ SELECT
+   ml_generate_text_result['candidates'][0]['content']['parts'][0]['text'] AS generated_text,
+   *
+ EXCEPT (ml_generate_text_result, ml_generate_text_status)
+ FROM ML.GENERATE_TEXT(
+   MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.model_gemini`, (
+     SELECT
+      CONCAT('Company ', bbb.project_id, ' uses various GCP Cloud resources, give them a suggestion on how to improve their usage based on: ', bbb.service_overview, '. Make it short and concise, with a relevant and helpful comment.') AS prompt,
+       *
+     FROM bbb
+     LIMIT 5 
+   ),
+   STRUCT(0.7 AS temperature, 500 AS max_output_tokens))
+)
+SELECT * FROM ccc
+
+

@@ -1,0 +1,8 @@
+config {
+ type: "declaration",
+ database: "gcp-billing-dump1",
+ schema: "billing_dump",
+ name: "cloud_pricing_export"
+}
+
+
