@@ -1,0 +1,73 @@
+config {
+    type: "table",
+    database: dataform.projectConfig.defaultDatabase,
+    schema: "billing_" + dataform.projectConfig.vars.ENV,
+    name: "genai_service_suggestions",
+    description: "Gemini AI suggestions to optimise GCP cloud consumption",
+    tags: [
+        "lifecycle:deactive"
+    ]
+}
+
+WITH
+  aa AS (
+  SELECT
+    invoice_month,
+    billing_account_id,
+    project_id,
+    project_number,
+    project_name,
+    service_id,
+    service_description,
+    SUM(cost) AS cost,
+    SUM(cost_at_list) AS cost_at_list
+  FROM
+    ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_sku_billing")}
+  WHERE
+    -- invoice_month = FORMAT_DATE('%Y%m', DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 MONTH)) AND
+    project_id = '${dataform.projectConfig.defaultDatabase}'
+  GROUP BY
+    invoice_month,
+    billing_account_id,
+    project_id,
+    project_number,
+    project_name,
+    service_id,
+    service_description ),
+  bb AS (
+  SELECT
+    invoice_month,
+    billing_account_id,
+    project_id,
+    project_number,
+    project_name,
+    STRING_AGG(service_description || ' (Cost: ' || CAST(ROUND(cost, 2) AS STRING) || ')', ', ') AS service_overview
+  FROM
+    aa
+  GROUP BY
+    invoice_month,
+    billing_account_id,
+    project_id,
+    project_number,
+    project_name ),
+  cc AS (
+  SELECT
+    ml_generate_text_result['candidates'][0]['content']['parts'][0]['text'] AS generated_text,
+    * EXCEPT (ml_generate_text_result,
+      ml_generate_text_status)
+  FROM
+    ML.GENERATE_TEXT( MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.${"model_gemini"}`,
+      (
+      SELECT
+        CONCAT('Project ', bb.project_id, ' uses various GCP Cloud resources, give them a suggestions on how to improve their usage based on: ', bb.service_overview, '. Make it short and concise, with a relevant and helpful comment.') AS prompt,
+        *
+      FROM
+        bb
+      LIMIT
+        5 ),
+      STRUCT(0.7 AS temperature,
+        500 AS max_output_tokens)) )
+SELECT
+  *
+FROM
+  cc

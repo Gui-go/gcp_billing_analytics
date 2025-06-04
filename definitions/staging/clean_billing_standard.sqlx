@@ -7,132 +7,13 @@ config {
     tags: [
         "stage:to_be_defined",
         "lifecycle:deactive"
-    ],
-    columns: {
-        billing_account_id: "Unique identifier for the billing account associated with the charges.",
-        service: {
-            description: "Details about the Google Cloud service associated with the billed resource.",
-            columns: {
-                id: "Unique identifier for the Google Cloud service (e.g., Compute Engine, BigQuery).",
-                description: "Human-readable name of the Google Cloud service."
-            }
-        },
-        sku: {
-            description: "Details about the Stock Keeping Unit (SKU) representing a specific billable item.",
-            columns: {
-                id: "Unique identifier for the SKU.",
-                description: "Human-readable description of the SKU, detailing the specific resource or feature billed."
-            }
-        },
-        usage_start_time: "Timestamp marking the start of the usage period for the billed resource (UTC).",
-        usage_end_time: "Timestamp marking the end of the usage period for the billed resource (UTC).",
-        project: {
-            description: "Information about the Google Cloud project associated with the resource usage.",
-            columns: {
-                id: "Unique identifier for the Google Cloud project.",
-                number: "Numeric identifier for the Google Cloud project, used internally by GCP.",
-                name: "Human-readable name of the Google Cloud project.",
-                labels: {
-                    description: "Custom metadata labels associated with the project.",
-                    columns: {
-                        key: "Key of a label associated with the project.",
-                        value: "Value corresponding to the project label key."
-                    }
-                },
-                ancestry_numbers: "Hierarchical numeric identifiers for the project's parent resources (e.g., folders, organization).",
-                ancestors: {
-                    description: "Details about ancestor entities in the project hierarchy.",
-                    columns: {
-                        resource_name: "Resource name of ancestor entities (e.g., folders, organization).",
-                        display_name: "Human-readable name of ancestor entities."
-                    }
-                }
-            }
-        },
-        labels: {
-            description: "Custom metadata labels associated with the billed resource.",
-            columns: {
-                key: "Key of a label associated with the resource.",
-                value: "Value corresponding to the resource label key."
-            }
-        },
-        system_labels: {
-            description: "System-generated labels applied to the resource, managed by GCP.",
-            columns: {
-                key: "Key of a system-generated label.",
-                value: "Value corresponding to the system label key."
-            }
-        },
-        location: {
-            description: "Geographic location details for the billed resource.",
-            columns: {
-                location: "Generic location field, often specifying the data center or region.",
-                country: "Country where the resource is located, based on ISO country codes.",
-                region: "Geographic region where the resource is hosted (e.g., us-central1).",
-                zone: "Specific availability zone within a region (e.g., us-central1-a)."
-            }
-        },
-        tags: {
-            description: "User-defined tags for cost allocation or tracking.",
-            columns: {
-                key: "Key of a user-defined tag applied to the resource.",
-                value: "Value corresponding to the tag key.",
-                inherited: "Boolean indicating if the tag is inherited from a parent resource (e.g., project or folder).",
-                namespace: "Namespace for the tag, defining its scope or category."
-            }
-        },
-        transaction_type: "Type of billing transaction (e.g., purchase, refund, adjustment).",
-        seller_name: "Name of the seller or provider of the service (e.g., Google, third-party marketplace vendor).",
-        export_time: "Timestamp when the billing data was exported to the billing export table (UTC).",
-        cost: "Net cost of the resource usage before credits, in the billing account's currency.",
-        currency: "Currency code for the cost (e.g., USD, EUR).",
-        currency_conversion_rate: "Exchange rate applied to convert costs to the billing account's currency.",
-        usage: {
-            description: "Details about the resource usage during the billing period.",
-            columns: {
-                amount: "Quantity of resource usage (e.g., CPU hours, storage GB).",
-                unit: "Unit of measurement for the usage amount (e.g., hours, gibibyte-month).",
-                pricing_unit: "Unit used for pricing calculations (e.g., hour, gibibyte)."
-            }
-        },
-        amount_in_pricing_units: "Usage amount converted to the pricing unit for the SKU.",
-        credits: {
-            description: "Details about credits applied to the cost.",
-            columns: {
-                name: "Name of the credit (e.g., promotional credit, committed use discount).",
-                amount: "Monetary value of the credit, in the billing account's currency.",
-                full_name: "Fully qualified name of the credit, providing additional context.",
-                id: "Unique identifier for the credit.",
-                type: "Type of credit applied (e.g., promotional, discount, adjustment)."
-            }
-        },
-        invoice: {
-            description: "Information about the invoice associated with the cost.",
-            columns: {
-                month: "Year and month of the invoice (e.g., 202501).",
-                publisher_type: "Type of publisher issuing the invoice (e.g., Google, marketplace vendor)."
-            }
-        },
-        cost_type: "Category of cost (e.g., regular, tax, adjustment).",
-        adjustment_info: {
-            description: "Details about adjustments applied to the billing data.",
-            columns: {
-                id: "Unique identifier for the adjustment.",
-                description: "Description of the adjustment, explaining its purpose or reason.",
-                mode: "Mode of the adjustment (e.g., manual, automatic).",
-                type: "Type of adjustment (e.g., correction, refund)."
-            }
-        },
-        cost_at_list: "Cost of the resource at list price, before discounts or credits."
-    }
+    ]
 }
 
-
 SELECT
-  *
+    *
 FROM
-  ${ref("gcp-billing-dump1", "billing_dump", "gcp_billing_export_v1_01F0C7_9A2082_488963")}
-
+    ${ref("gcp-billing-dump1", "billing_dump", "gcp_billing_export_v1_01F0C7_9A2082_488963")}
 
 
 
