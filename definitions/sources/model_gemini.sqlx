@@ -10,5 +10,11 @@ config {
 
 
 CREATE OR REPLACE MODEL `personalhub11.billing_dev.model_gemini`
-REMOTE WITH CONNECTION `US.my_cloud_resource_connection`
-OPTIONS(endpoint = 'projects/personalhub11/locations/us/connections/my_cloud_resource_connection')
+REMOTE WITH CONNECTION `personalhub11.US.bq_gemini_connection`
+OPTIONS(endpoint = 'gemini-2.0-flash-001');
+
+-- gemini-2.0-flash-001
+-- gemini-2.0-flash-lite-001
+-- gemini-1.5-pro-002
+-- gemini-1.5-flash-002
+

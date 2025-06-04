@@ -1,0 +1,51 @@
+config {
+ type: "table",
+ database: dataform.projectConfig.defaultDatabase,
+ schema: "billing_" + dataform.projectConfig.vars.ENV,
+ name: "agg_service_billing",
+ description: "Aggregated atble at service level",
+ tags: [
+   "lifecycle:deactive"
+ ]
+}
+
+SELECT
+  invoice.month AS invoice_month,
+  billing_account_id,
+  project.id AS project_id,
+  project.number AS project_number,
+  project.name AS project_name,
+  service.id AS service_id,
+  service.description AS service_description,
+  SUM(cost) AS cost,
+  SUM(cost_at_list) AS cost_at_list,
+  currency,
+  currency_conversion_rate,
+  SUM(usage.amount) AS usage_amount,
+  usage.unit AS usage_unit,
+  usage.pricing_unit AS usage_pricing_unit,
+  SUM(usage.amount_in_pricing_units) AS usage_amount_in_pricing_units,
+  location.country AS location_country,
+  location.region AS location_region,
+  location.zone AS location_zone
+FROM
+  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "clean_billing_standard")}
+GROUP BY
+  invoice.month,
+  billing_account_id,
+  project.id,
+  project.number,
+  project.name,
+  service.id,
+  service.description,
+  currency,
+  currency_conversion_rate,
+  usage.amount,
+  usage.unit,
+  usage.pricing_unit,
+  usage.amount_in_pricing_units,
+  location.country,
+  location.region,
+  location.zone
+
+
