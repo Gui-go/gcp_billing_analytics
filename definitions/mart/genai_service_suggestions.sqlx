@@ -62,9 +62,9 @@ WITH
         (
           SELECT
             CONCAT(
-              "As of ", CAST(CURRENT_DATE("Europe/Berlin") AS STRING), ", project ", bb.project_id," incurred cloud costs for the month of ", bb.invoice_month, "using the following GCP services: \n\n", 
+              "As of ", CAST(CURRENT_DATE("Europe/Berlin") AS STRING), ", project ", bb.project_id," incurred cloud costs for the month of ", bb.invoice_month, " using the following GCP services: \n\n", 
               bb.service_overview, ".\n\n",
-              "You are a cloud infrastructure expert. Please generate a highly detailed, technical, and structured report to help the user reduce costs and improve cloud architecture efficiency. \n",              
+              "You are a cloud infrastructure expert. Please generate a highly detailed, technical, and structured report to help the user reduce costs and improve cloud architecture efficiency. \n\n",
               "For each service mentioned, include:\n",
               "- A brief analysis of likely usage patterns based on cost level\n",
               "- Clear inefficiencies or underutilization risks\n",
