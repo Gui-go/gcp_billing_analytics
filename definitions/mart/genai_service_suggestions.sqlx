@@ -42,7 +42,7 @@ WITH
       project_id,
       project_number,
       project_name,
-      STRING_AGG(service_description || ' (Cost: $' || CAST(ROUND(cost, 4) AS STRING) || ')', ', ') AS service_overview
+      STRING_AGG(service_description || ' (Cost: $' || CAST(ROUND(cost, 2) AS STRING) || ')', ', ') AS service_overview
     FROM
       aa
     GROUP BY
@@ -80,7 +80,7 @@ WITH
             bb
           LIMIT 5
         ),
-        STRUCT(0.7 AS temperature, 1024 AS max_output_tokens)
+        STRUCT(0.7 AS temperature, 8192 AS max_output_tokens)
       )
   )
 SELECT

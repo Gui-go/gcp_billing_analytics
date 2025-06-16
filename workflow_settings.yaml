@@ -1,4 +1,4 @@
-defaultProject: gcp_billing_analytics
+defaultProject: personalhub13
 defaultLocation: US
 defaultDataset: personalhub13
 defaultAssertionDataset: dataform_assertions
