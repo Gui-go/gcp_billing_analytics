@@ -62,15 +62,15 @@ WITH
         (
           SELECT
             CONCAT(
-              "Project ", bb.project_id, " is using the following GCP services with their respective monthly costs: ",
-              bb.service_overview, ". ",
-              "You are a cloud infrastructure expert. Please generate a highly detailed, technical, and structured report to help the user reduce costs and improve cloud architecture efficiency. ",
+              "As of ", CAST(CURRENT_DATE("Europe/Berlin") AS STRING), ", project ", bb.project_id," incurred cloud costs for the month of ", bb.invoice_month, "using the following GCP services: \n\n", 
+              bb.service_overview, ".\n\n",
+              "You are a cloud infrastructure expert. Please generate a highly detailed, technical, and structured report to help the user reduce costs and improve cloud architecture efficiency. \n",              
               "For each service mentioned, include:\n",
               "- A brief analysis of likely usage patterns based on cost level\n",
               "- Clear inefficiencies or underutilization risks\n",
               "- Specific, actionable recommendations (e.g., resizing, autoscaling configs, alternative services)\n",
               "- Monitoring tools or metrics to validate the suggestions\n",
-              "- Tradeoffs (latency, reliability, complexity)\n\n",
+              "- Tradeoffs (latency, reliability, complexity)\n",
               "Then, provide a prioritized list of improvements: quick wins vs. long-term refactors.\n\n",
               "Feel free to recommend architecture shifts (e.g., switch from Compute Engine to Cloud Run or Cloud Functions), use of budget alerts, or identity/perimeter security changes if applicable. ",
               "The goal is to create a production-grade cost optimization and architecture tuning plan. Avoid generic tips—go deep."
@@ -87,8 +87,4 @@ SELECT
   *
 FROM
   cc
-
-
-
-
 
