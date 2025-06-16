@@ -1,7 +1,11 @@
 defaultProject: gcp_billing_analytics
 defaultLocation: US
-defaultDataset: personalhub11
+defaultDataset: personalhub13
 defaultAssertionDataset: dataform_assertions
 dataformCoreVersion: 3.0.0
 vars:
  ENV: "dev"
+ PROJ_BILL_DUMP: "dump-billing-export1"
+ DATASET_BILL_DUMP: "billing_dataset"
+ BILLING_ACCOUNT: "01F474_510F73_35550F"
+ GEMINI_CNX: "bq_gemini_connection"

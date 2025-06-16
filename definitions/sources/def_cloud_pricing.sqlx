@@ -1,7 +1,7 @@
 config {
  type: "declaration",
- database: "gcp-billing-dump1",
- schema: "billing_dump",
+ database: dataform.projectConfig.vars.PROJ_BILL_DUMP,
+ schema: dataform.projectConfig.vars.DATASET_BILL_DUMP,
  name: "cloud_pricing_export"
 }
 

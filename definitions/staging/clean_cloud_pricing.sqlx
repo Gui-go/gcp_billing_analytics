@@ -13,4 +13,4 @@ config {
 SELECT
   *
 FROM
-  ${ref("gcp-billing-dump1", "billing_dump", "cloud_pricing_export")}
+  ${ref(dataform.projectConfig.vars.PROJ_BILL_DUMP, dataform.projectConfig.vars.DATASET_BILL_DUMP, "cloud_pricing_export")}

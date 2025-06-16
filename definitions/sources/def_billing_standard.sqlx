@@ -1,8 +1,8 @@
 config {
     type: "declaration",
-    database: "gcp-billing-dump1",
-    schema: "billing_dump",
-    name: "gcp_billing_export_v1_01F0C7_9A2082_488963",
+    database: dataform.projectConfig.vars.PROJ_BILL_DUMP,
+    schema: dataform.projectConfig.vars.DATASET_BILL_DUMP,
+    name: "gcp_billing_export_v1_" + dataform.projectConfig.vars.BILLING_ACCOUNT,
     columns: {
         billing_account_id: "Unique identifier for the billing account associated with the charges.",
         service: {
@@ -122,4 +122,12 @@ config {
     }
 }
 
-  -- Standard Billing Export (gcp_billing_export_v1_<suffix>): Contains cost and usage data aggregated at the project or service level.
+
+
+-- Standard Billing Export (gcp_billing_export_v1_<billing_account>): Contains cost and usage data aggregated at the project or service level.
+
+
+
+
+
+
