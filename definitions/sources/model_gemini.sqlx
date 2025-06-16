@@ -9,9 +9,9 @@ config {
 }
 
 
-CREATE OR REPLACE MODEL `personalhub11.billing_dev.model_gemini`
-REMOTE WITH CONNECTION `personalhub11.US.bq_gemini_connection`
-OPTIONS(endpoint = 'gemini-2.0-flash-001');
+CREATE OR REPLACE MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.model_gemini`
+REMOTE WITH CONNECTION `${dataform.projectConfig.defaultDatabase}.${dataform.projectConfig.defaultLocation}.${dataform.projectConfig.vars.GEMINI_CNX}`
+OPTIONS(endpoint = 'gemini-2.0-flash-001'); 
 
 -- gemini-2.0-flash-001
 -- gemini-2.0-flash-lite-001

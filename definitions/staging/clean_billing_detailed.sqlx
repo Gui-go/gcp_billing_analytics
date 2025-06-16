@@ -13,4 +13,4 @@ config {
 SELECT
   *
 FROM
-  ${ref("gcp-billing-dump1", "billing_dump", "gcp_billing_export_resource_v1_01F0C7_9A2082_488963")}
+  ${ref(dataform.projectConfig.vars.PROJ_BILL_DUMP, dataform.projectConfig.vars.DATASET_BILL_DUMP, "gcp_billing_export_resource_v1_" + dataform.projectConfig.vars.BILLING_ACCOUNT)}
