@@ -1,11 +1,12 @@
 config {
- database: dataform.projectConfig.defaultDatabase,
- schema: "billing_" + dataform.projectConfig.vars.ENV,
- name: "model_gemini",
- description: "",
- tags: [
-   "lifecycle:deactive"
- ]
+  type: "operations",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "model_gemini",
+  description: "",
+  tags: [
+    "lifecycle:deactive"
+  ]
 }
 
 
