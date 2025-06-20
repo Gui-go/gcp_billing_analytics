@@ -80,14 +80,16 @@ WITH
             bb
           LIMIT 5
         ),
-        STRUCT(0.7 AS temperature, 8192 AS max_output_tokens)
+        STRUCT(
+          0.7 AS temperature, -- Lower temperature for more deterministic output
+          8192 AS max_output_tokens -- Increased tokens for detailed JSON response
+          -- 0.9 AS top_p,  -- Add top_p for better output diversity
+          -- 10 AS top_k  -- Add top_k for controlled creativity
+        )
       )
   )
 SELECT
   *
 FROM
   cc
-
-
-
 
