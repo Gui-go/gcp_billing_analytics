@@ -6,7 +6,8 @@ config {
     description: "",
     tags: [
         "stage:to_be_difined",
-        "lifecycle:deactive"
+        "lifecycle:deactive",
+        "cloud_pricing"
     ]
 }
 
@@ -14,3 +15,5 @@ SELECT
   *
 FROM
   ${ref(dataform.projectConfig.vars.PROJ_BILL_DUMP, dataform.projectConfig.vars.DATASET_BILL_DUMP, "cloud_pricing_export")}
+
+

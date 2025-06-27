@@ -2,7 +2,7 @@ config {
   type: "operations",
   database: dataform.projectConfig.defaultDatabase,
   schema: "billing_" + dataform.projectConfig.vars.ENV,
-  name: "model_gemini",
+  name: "conx_gemini",
   description: "",
   tags: [
     "lifecycle:deactive"
@@ -10,7 +10,7 @@ config {
 }
 
 
-CREATE OR REPLACE MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.model_gemini`
+CREATE OR REPLACE MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.conx_gemini`
 REMOTE WITH CONNECTION `${dataform.projectConfig.defaultDatabase}.${dataform.projectConfig.defaultLocation}.${dataform.projectConfig.vars.GEMINI_CNX}`
 OPTIONS(endpoint = 'gemini-2.0-flash-001'); 
 

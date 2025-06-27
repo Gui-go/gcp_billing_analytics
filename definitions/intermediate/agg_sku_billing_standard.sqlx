@@ -2,15 +2,12 @@ config {
     type: "table",
     database: dataform.projectConfig.defaultDatabase,
     schema: "billing_" + dataform.projectConfig.vars.ENV,
-    name: "agg_sku_billing",
-    description: "Aggregated atble at SKU level",
+    name: "agg_sku_billing_standard",
+    description: "Aggregated table at SKU level",
     tags: [
         "lifecycle:deactive"
     ]
 }
-
-
--- add credits
 
 SELECT
   invoice.month AS invoice_month,
@@ -39,7 +36,7 @@ SELECT
   location.region AS location_region,
   location.zone AS location_zone
 FROM
-  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "clean_billing_standard")}
+  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "billing_standard")}
 GROUP BY
   invoice.month,
   billing_account_id,

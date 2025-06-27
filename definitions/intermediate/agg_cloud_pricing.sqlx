@@ -1,0 +1,89 @@
+config {
+  type: "table",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "agg_cloud_pricing",
+  description: "",
+  tags: [
+    "stage:to_be_difined",
+    "lifecycle:deactive",
+    "cloud_pricing"
+  ],
+  description: "A comprehensive table containing Google Cloud Platform pricing data, derived from the BigQuery public billing dataset export.",
+  columns: {
+    export_time: "The timestamp when this pricing data was exported from the source.",
+    pricing_as_of_time: "The timestamp representing when the pricing information was last updated or became effective.",
+    billing_account_id: "The unique identifier for the billing account associated with this pricing data.",
+    business_entity_name: "The name of the business entity or organization associated with the billing account.",
+    "service.id": "The unique identifier for the Google Cloud service (e.g., Compute Engine, BigQuery).",
+    "service.description": "A human-readable description of the Google Cloud service.",
+    "sku.id": "The unique identifier for the Service SKU (Stock Keeping Unit), representing a specific chargeable item within a service.",
+    "sku.description": "A human-readable description of the Service SKU (e.g., 'N1 Standard 1 virtual machine running in us-central1').",
+    destination_migration_mappings: "Potential mappings for migration purposes, if the SKU has been mapped to a different service/SKU.",
+    product_taxonomy: "Categorization of the product, providing a hierarchical classification.",
+    "geo_taxonomy.type": "The type of geographical region associated with the pricing (e.g., 'REGION', 'MULTI_REGION').",
+    "geo_taxonomy.regions": "A list of geographical regions applicable to this pricing (e.g., ['us-central1', 'us-east1']). This can be an array if multi-region.",
+    pricing_unit: "The unit of measurement for pricing (e.g., 'hour', 'gibibyte', 'operations').",
+    pricing_unit_description: "A human-readable description of the pricing unit (e.g., 'hour', 'GiB').",
+    account_currency_code: "The currency code (e.g., 'USD', 'EUR') in which the account is billed.",
+    currency_conversion_rate: "The rate used to convert the list price to the account currency.",
+    "list_price.aggregation_info.aggregation_level": "Indicates how the list price is aggregated (e.g., 'SKU_AGGREGATION').",
+    "list_price.aggregation_info.aggregation_interval": "The time interval over which the list price is aggregated (e.g., 'DAILY', 'HOURLY').",
+    pricing_unit_quantity: "The quantity of the pricing unit for the given rate tier.",
+    start_usage_amount: "The starting usage amount for a given pricing tier (e.g., 0, 100).",
+    "list_price.tiered_rates.usd_amount": "The list price amount in USD for the specific tier and unit.",
+    account_currency_amount: "The list price amount in the billing account's currency for the specific tier and unit.",
+    "billing_account_price.price_info.price_reason": "Reason for any specific pricing applied to the billing account (e.g., 'CUSTOM_CONTRACT', 'DISCOUNT').",
+    discount_percent: "The percentage discount applied to the billing account's price.",
+    discount_percent_fixed_date: "If applicable, the date until which the discount percentage is fixed.",
+    "billing_account_price.price_info.discount_migrated_from": "Information about where a discount was migrated from, if applicable.",
+    "billing_account_price.aggregation_info.aggregation_level": "Indicates how the billing account price is aggregated (e.g., 'SKU_AGGREGATION').",
+    "billing_account_price.aggregation_info.aggregation_interval": "The time interval over which the billing account price is aggregated (e.g., 'DAILY', 'HOURLY').",
+    "billing_account_price.tiered_rates.usd_amount": "The billing account's price amount in USD for the specific tier and unit, reflecting any discounts.",
+    "billing_account_price.tiered_rates.account_currency_amount": "The billing account's price amount in the account's currency for the specific tier and unit, reflecting any discounts."
+  }
+}
+
+SELECT
+    export_time,
+    pricing_as_of_time,
+    billing_account_id,
+    business_entity_name,
+    service.id AS service_id,
+    service.description AS service_description,
+    sku.id AS sku_id,
+    sku.description AS sku_description,
+    product_taxonomy,
+    geo_taxonomy.type AS geo_taxonomy_type,
+    geo_taxonomy.regions AS geo_taxonomy_regions,
+    pricing_unit,
+    pricing_unit_description,
+    account_currency_code,
+    currency_conversion_rate,
+    list_price.aggregation_info.aggregation_level AS list_price_aggregation_level,
+    list_price.aggregation_info.aggregation_interval AS list_price_aggregation_interval,
+    list_price.tiered_rates[OFFSET(0)].pricing_unit_quantity AS list_price_pricing_unit_quantity,
+    list_price.tiered_rates[OFFSET(0)].start_usage_amount AS list_price_start_usage_amount,
+    list_price.tiered_rates[OFFSET(0)].usd_amount AS list_price_usd_amount,
+    list_price.tiered_rates[OFFSET(0)].account_currency_amount AS list_price_account_currency_amount,
+    billing_account_price.price_info.price_reason AS billing_account_price_reason,
+    billing_account_price.price_info.discount_migrated_from AS billing_account_discount_migrated_from,
+    billing_account_price.aggregation_info.aggregation_level AS billing_account_price_aggregation_level,
+    billing_account_price.aggregation_info.aggregation_interval AS billing_account_price_aggregation_interval,
+    billing_account_price.tiered_rates[OFFSET(0)].pricing_unit_quantity AS billing_account_price_pricing_unit_quantity,
+    billing_account_price.tiered_rates[OFFSET(0)].start_usage_amount AS billing_account_price_start_usage_amount,
+    billing_account_price.tiered_rates[OFFSET(0)].usd_amount AS billing_account_price_usd_amount,
+    billing_account_price.tiered_rates[OFFSET(0)].account_currency_amount AS billing_account_price_account_currency_amount
+FROM
+    ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "cloud_pricing")}
+WHERE 
+  "us-central1" IN UNNEST(geo_taxonomy.regions)
+
+  
+
+
+
+
+
+
+

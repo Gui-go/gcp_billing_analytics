@@ -2,12 +2,13 @@ config {
   type: "table",
   database: dataform.projectConfig.defaultDatabase,
   schema: "billing_" + dataform.projectConfig.vars.ENV,
-  name: "genai_service_suggestions",
+  name: "genai_service_billing_standard",
   description: "Gemini AI suggestions to optimise GCP cloud consumption",
   tags: [
     "lifecycle:deactive"
   ]
 }
+
 
 WITH
   aa AS (
@@ -21,11 +22,7 @@ WITH
       service_description,
       SUM(cost) AS cost,
       SUM(cost_at_list) AS cost_at_list
-    FROM
-      ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_sku_billing")}
-    WHERE
-      -- invoice_month = FORMAT_DATE('%Y%m', DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 MONTH)) AND
-      project_id = '${dataform.projectConfig.defaultDatabase}'
+    FROM ${ref(dataform.projectConfig.defaultDatabase, `billing_${dataform.projectConfig.vars.ENV}`, "agg_service_billing_standard")}
     GROUP BY
       invoice_month,
       billing_account_id,
@@ -43,8 +40,7 @@ WITH
       project_number,
       project_name,
       STRING_AGG(service_description || ' (Cost: $' || CAST(ROUND(cost, 2) AS STRING) || ')', ', ') AS service_overview
-    FROM
-      aa
+    FROM aa
     GROUP BY
       invoice_month,
       billing_account_id,
@@ -58,7 +54,7 @@ WITH
       * EXCEPT (ml_generate_text_result, ml_generate_text_status)
     FROM
       ML.GENERATE_TEXT(
-        MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.${"model_gemini"}`,
+        MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.${"conx_gemini"}`,
         (
           SELECT
             CONCAT(
@@ -78,7 +74,7 @@ WITH
             *
           FROM
             bb
-          LIMIT 5
+          LIMIT  1
         ),
         STRUCT(
           0.7 AS temperature, -- Lower temperature for more deterministic output
@@ -88,8 +84,8 @@ WITH
         )
       )
   )
-SELECT
-  *
-FROM
-  cc
+SELECT *
+FROM cc
+
+
 

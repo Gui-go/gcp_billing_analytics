@@ -2,7 +2,7 @@ config {
  type: "table",
  database: dataform.projectConfig.defaultDatabase,
  schema: "billing_" + dataform.projectConfig.vars.ENV,
- name: "agg_project_billing",
+ name: "agg_project_billing_standard",
  description: "Aggregated table at project level",
  tags: [
    "lifecycle:deactive"
@@ -27,7 +27,7 @@ SELECT
   location.region AS location_region,
   location.zone AS location_zone
 FROM
-  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "clean_billing_standard")}
+  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "billing_standard")}
 GROUP BY
   invoice.month,
   billing_account_id,

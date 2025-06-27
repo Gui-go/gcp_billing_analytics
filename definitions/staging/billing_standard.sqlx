@@ -2,7 +2,7 @@ config {
     type: "table",
     database: dataform.projectConfig.defaultDatabase,
     schema: "billing_" + dataform.projectConfig.vars.ENV,
-    name: "clean_billing_standard",
+    name: "billing_standard",
     description: "Standardized table for GCP billing export data, containing detailed cost and usage information for resources across projects.",
     tags: [
         "stage:to_be_defined",

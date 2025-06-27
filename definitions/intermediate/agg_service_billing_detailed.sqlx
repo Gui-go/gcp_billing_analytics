@@ -1,0 +1,13 @@
+config {
+  type: "table",
+  name: "agg_service_billing_detailed"
+}
+
+
+
+-- NEEDS TO BE AGGREGATED
+
+SELECT
+  *
+FROM
+  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "billing_detailed")}

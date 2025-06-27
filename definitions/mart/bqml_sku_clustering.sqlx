@@ -1,0 +1,15 @@
+config {
+    type: "table",
+    database: dataform.projectConfig.defaultDatabase,
+    schema: "billing_" + dataform.projectConfig.vars.ENV,
+    name: "bqml_sku_billing_standard",
+    description: "Mart table at SKU level after BQ ML is applied",
+    tags: [
+        "lifecycle:deactive"
+    ]
+}
+
+SELECT
+  *
+FROM
+  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_sku_billing_standard")}

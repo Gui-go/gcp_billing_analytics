@@ -1,0 +1,14 @@
+config {
+  type: "operations",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "info_bqml_kmeans_k3_project_billing_standard",
+  description: "",
+  tags: [
+    "lifecycle:deactive"
+  ]
+}
+
+SELECT *
+FROM ML.TRAINING_INFO(MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.bqml_kmeans_k3_project_billing_standard`)
+

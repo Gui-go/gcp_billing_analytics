@@ -1,0 +1,37 @@
+config {
+  type: "operations",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "bqml_automl_project_billing_standard",
+  description: "",
+  tags: [
+    "lifecycle:deactive"
+  ]
+}
+
+-- SELECT *
+-- FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_project_billing_standard")}
+
+
+CREATE OR REPLACE MODEL `${dataform.projectConfig.defaultDatabase}.billing_${dataform.projectConfig.vars.ENV}.bqml_automl_project_billing_standard`
+OPTIONS(
+  MODEL_TYPE='AUTOML_REGRESSOR',
+  INPUT_LABEL_COLS=['cost'],
+  BUDGET_HOURS=1 -- Optional: Sets the training budget in hours. Default is 1 hour. Max is 72.
+  -- OPTIMIZATION_OBJECTIVE='MINIMIZE_RMSE' -- Optional: Default for regression. Other options: MINIMIZE_MAE, MINIMIZE_RMSLE
+) AS
+SELECT
+  cost,
+  invoice_month,
+  cost_at_list,
+  usage_amount
+FROM
+  `${dataform.projectConfig.defaultDatabase}.billing_${dataform.projectConfig.vars.ENV}.agg_project_billing_standard`
+-- WHERE
+--   invoice_month BETWEEN '2022-01-01' AND '2023-12-31'; -- Use a portion of your data for training
+
+
+
+
+
+

@@ -1,0 +1,99 @@
+
+
+
+
+-- WITH
+--   aa AS (
+--     SELECT
+--       invoice_month,
+--       billing_account_id,
+--       project_id,
+--       project_number,
+--       project_name,
+--       service_id,
+--       service_description,
+--       SUM(cost) AS cost,
+--       SUM(cost_at_list) AS cost_at_list
+--     FROM
+--       ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_sku_billing")}
+--     WHERE
+--       -- invoice_month = FORMAT_DATE('%Y%m', DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 MONTH)) AND
+--       project_id = '${dataform.projectConfig.defaultDatabase}'
+--     GROUP BY
+--       invoice_month,
+--       billing_account_id,
+--       project_id,
+--       project_number,
+--       project_name,
+--       service_id,
+--       service_description
+--   ),
+--   bb AS (
+--     SELECT
+--       invoice_month,
+--       billing_account_id,
+--       project_id,
+--       project_number,
+--       project_name,
+--       STRING_AGG(service_description || ' (Cost: $' || CAST(ROUND(cost, 2) AS STRING) || ')', ', ') AS service_overview
+--     FROM
+--       aa
+--     GROUP BY
+--       invoice_month,
+--       billing_account_id,
+--       project_id,
+--       project_number,
+--       project_name
+--   ),
+--   cc AS (
+--     SELECT
+--       ml_generate_text_result['candidates'][0]['content']['parts'][0]['text'] AS generated_text,
+--       * EXCEPT (ml_generate_text_result, ml_generate_text_status)
+--     FROM
+--       ML.GENERATE_TEXT(
+--         MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.${"model_gemini"}`,
+--         (
+--           SELECT
+--             CONCAT(
+--               "As of ", CAST(CURRENT_DATE("Europe/Berlin") AS STRING), ", project ", bb.project_id," incurred cloud costs for the month of ", bb.invoice_month, " using the following GCP services: \n\n", 
+--               bb.service_overview, ".\n\n",
+--               "You are a cloud infrastructure expert. Please generate a highly detailed, technical, and structured report to help the user reduce costs and improve cloud architecture efficiency. \n\n",
+--               "For each service mentioned, include:\n",
+--               "- A brief analysis of likely usage patterns based on cost level\n",
+--               "- Clear inefficiencies or underutilization risks\n",
+--               "- Specific, actionable recommendations (e.g., resizing, autoscaling configs, alternative services)\n",
+--               "- Monitoring tools or metrics to validate the suggestions\n",
+--               "- Tradeoffs (latency, reliability, complexity)\n",
+--               "Then, provide a prioritized list of improvements: quick wins vs. long-term refactors.\n\n",
+--               "Feel free to recommend architecture shifts (e.g., switch from Compute Engine to Cloud Run or Cloud Functions), use of budget alerts, or identity/perimeter security changes if applicable. ",
+--               "The goal is to create a production-grade cost optimization and architecture tuning plan. Avoid generic tips—go deep."
+--             ) AS prompt,
+--             *
+--           FROM
+--             bb
+--           LIMIT 5
+--         ),
+--         STRUCT(
+--           0.7 AS temperature, -- Lower temperature for more deterministic output
+--           8192 AS max_output_tokens -- Increased tokens for detailed JSON response
+--           -- 0.9 AS top_p,  -- Add top_p for better output diversity
+--           -- 10 AS top_k  -- Add top_k for controlled creativity
+--         )
+--       )
+--   )
+-- SELECT
+--   *
+-- FROM
+--   cc
+
+
+
+
+
+-- WITH
+--     aa AS (
+--         SELECT *
+--         FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_service_billing")}
+--     )
+-- SELECT * 
+-- FROM aa

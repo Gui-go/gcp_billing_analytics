@@ -1,0 +1,33 @@
+config {
+  type: "operations",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "bqml_arima_project_billing_standard",
+  description: "",
+  tags: [
+    "lifecycle:deactive"
+  ]
+}
+
+-- CREATE OR REPLACE MODEL `${dataform.projectConfig.defaultDatabase}.billing_${dataform.projectConfig.vars.ENV}.bqml_arima_project_billing_standard`
+-- OPTIONS (
+--   model_type = 'ARIMA_PLUS',
+--   time_series_timestamp_col = 'invoice_date',
+--   time_series_data_col = 'cost',
+--   time_series_id_col = 'project_name',
+--   auto_arima = TRUE,
+--   data_frequency = 'MONTHLY'
+-- ) AS
+-- SELECT
+--   PARSE_DATE('%Y%m', invoice_month) AS invoice_date,
+--   project_name,
+--   SUM(cost) AS cost
+-- FROM
+--   `${dataform.projectConfig.defaultDatabase}.billing_${dataform.projectConfig.vars.ENV}.agg_project_billing_standard`
+-- GROUP BY
+--   invoice_date, project_name
+-- HAVING project_name = "personalhub"
+
+
+SELECT *
+FROM `${dataform.projectConfig.defaultDatabase}.billing_${dataform.projectConfig.vars.ENV}.agg_project_billing_standard`
