@@ -9,6 +9,10 @@ config {
   ]
 }
 
+
+
+SELECT 0
+
 -- SELECT *
 -- FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_project_billing_standard")}
 
@@ -20,10 +24,10 @@ config {
 --     MODEL_PATH="gs://personalhub14-bqmlimport-bucket/tensorflow/*"
 -- )
 
-CREATE OR REPLACE MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`
-OPTIONS (
-  MODEL_TYPE='TENSORFLOW',
-  MODEL_PATH='gs://personalhub14-bqmlimport-bucket/tf_function1/simple_model/*'
-);
+-- CREATE OR REPLACE MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`
+-- OPTIONS (
+--   MODEL_TYPE='TENSORFLOW',
+--   MODEL_PATH='gs://personalhub14-bqmlimport-bucket/tf_function1/simple_model/*'
+-- );
 
 

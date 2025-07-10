@@ -9,7 +9,7 @@ config {
   ]
 }
 
-
+SELECT 0 AS PLACE_HOLDER
 
 -- NEEDS IMPROVEMENTS, ADD ARIMA
 
@@ -38,13 +38,13 @@ config {
 -- -- EXCEPT(CENTROID_ID) 
 -- FROM output_data
 
-SELECT *
-FROM ML.PREDICT(
-  MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`,
-  (
-    SELECT 2.0 AS feature
-  )
-)
+-- SELECT *
+-- FROM ML.PREDICT(
+--   MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`,
+--   (
+--     SELECT 2.0 AS feature
+--   )
+-- )
 
 
 -- SELECT *
