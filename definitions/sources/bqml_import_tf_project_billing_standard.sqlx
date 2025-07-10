@@ -1,0 +1,29 @@
+config {
+  type: "operations",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "bqml_import_tf_project_billing_standard",
+  description: "",
+  tags: [
+    "lifecycle:deactive"
+  ]
+}
+
+-- SELECT *
+-- FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_project_billing_standard")}
+
+
+-- CREATE OR REPLACE MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standard`
+-- OPTIONS (
+--     MODEL_TYPE='TENSORFLOW',
+--     --   MODEL_PATH='gs://your-unique-bucket-name-for-tf-models/text_classifier_v1/*'
+--     MODEL_PATH="gs://personalhub14-bqmlimport-bucket/tensorflow/*"
+-- )
+
+CREATE OR REPLACE MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`
+OPTIONS (
+  MODEL_TYPE='TENSORFLOW',
+  MODEL_PATH='gs://personalhub14-bqmlimport-bucket/tf_function1/simple_model/*'
+);
+
+

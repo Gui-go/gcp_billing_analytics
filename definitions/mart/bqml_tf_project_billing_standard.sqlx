@@ -1,0 +1,58 @@
+config {
+  type: "table",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "bqml_tf_project_billing_standard",
+  description: "",
+  tags: [
+    "lifecycle:deactive"
+  ]
+}
+
+
+
+-- NEEDS IMPROVEMENTS, ADD ARIMA
+
+-- WITH input_data AS (
+--   SELECT
+--     billing_account_id,
+--     project_id,
+--     cost,
+--     cost_at_list,
+--     usage_amount
+--   FROM
+--     ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_project_billing_standard")}
+-- ),
+--   output_data AS (
+--     SELECT
+--       t1.*,
+--       predicted_data.* EXCEPT(billing_account_id, project_id, cost, cost_at_list, usage_amount) 
+--     FROM
+--       input_data AS t1,
+--       ML.PREDICT(
+--         MODEL `${dataform.projectConfig.defaultDatabase}.billing_${dataform.projectConfig.vars.ENV}.bqml_kmeans_k3_project_billing_standard`,
+--         (SELECT * FROM input_data)
+--       ) AS predicted_data
+--   )
+-- SELECT *
+-- -- EXCEPT(CENTROID_ID) 
+-- FROM output_data
+
+SELECT *
+FROM ML.PREDICT(
+  MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`,
+  (
+    SELECT 2.0 AS feature
+  )
+)
+
+
+-- SELECT *
+-- FROM ML.PREDICT(
+--   MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`,
+--   TABLE `personalhub14.billing_dev.agg_project_billing_standard`
+-- )
+
+
+
+
