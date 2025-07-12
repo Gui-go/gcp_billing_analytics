@@ -49,6 +49,13 @@ WITH
       project_name
   ),
   cc AS (
+    SELECT * 
+    FROM bb 
+    WHERE 
+      (project_id = '${dataform.projectConfig.defaultDatabase}')
+      AND (invoice_month = FORMAT_DATE('%Y%m', CURRENT_DATE()))
+  ),
+  dd AS (
     SELECT
       ml_generate_text_result['candidates'][0]['content']['parts'][0]['text'] AS generated_text,
       * EXCEPT (ml_generate_text_result, ml_generate_text_status)
@@ -58,8 +65,8 @@ WITH
         (
           SELECT
             CONCAT(
-              "As of ", CAST(CURRENT_DATE("Europe/Berlin") AS STRING), ", project ", bb.project_id," incurred cloud costs for the month of ", bb.invoice_month, " using the following GCP services: \n\n", 
-              bb.service_overview, ".\n\n",
+              "As of ", CAST(CURRENT_DATE("Europe/Berlin") AS STRING), ", project ", cc.project_id," incurred cloud costs for the month of ", cc.invoice_month, " using the following GCP services: \n\n", 
+              cc.service_overview, ".\n\n",
               "You are a cloud infrastructure expert. Please generate a highly detailed, technical, and structured report to help the user reduce costs and improve cloud architecture efficiency. \n\n",
               "For each service mentioned, include:\n",
               "- A brief analysis of likely usage patterns based on cost level\n",
@@ -73,8 +80,7 @@ WITH
             ) AS prompt,
             *
           FROM
-            bb
-          LIMIT  1
+            cc
         ),
         STRUCT(
           0.7 AS temperature, -- Lower temperature for more deterministic output
@@ -85,7 +91,7 @@ WITH
       )
   )
 SELECT *
-FROM cc
+FROM dd
 
 
 
