@@ -5,8 +5,7 @@ config {
     name: "billing_standard",
     description: "Standardized table for GCP billing export data, containing detailed cost and usage information for resources across projects.",
     tags: [
-        "stage:to_be_defined",
-        "lifecycle:deactive"
+        "lifecycle:active"
     ]
 }
 

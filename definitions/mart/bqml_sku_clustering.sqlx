@@ -9,7 +9,10 @@ config {
     ]
 }
 
-SELECT
-  *
-FROM
-  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_sku_billing_standard")}
+-- SELECT
+--   *
+-- FROM
+--   ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_sku_billing_standard")}
+
+SELECT 1 AS PLACE_HOLDER
+

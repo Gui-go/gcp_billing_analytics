@@ -3,9 +3,9 @@ config {
  database: dataform.projectConfig.defaultDatabase,
  schema: "billing_" + dataform.projectConfig.vars.ENV,
  name: "agg_service_billing_standard",
- description: "Aggregated atble at service level",
+ description: "Aggregated table at service level",
  tags: [
-   "lifecycle:deactive"
+   "lifecycle:active"
  ]
 }
 

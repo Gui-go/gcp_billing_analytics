@@ -1,12 +1,17 @@
 config {
   type: "table",
-  name: "agg_project_billing_detailed"
+  name: "agg_project_billing_detailed",
+  tags: [
+        "lifecycle:deactive"
+  ]
 }
 
 
+SELECT 1 AS PLACE_HOLDER
+
 -- NEEDS TO BE AGGREGATED
 
-SELECT
-  *
-FROM
-  ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "billing_detailed")}
+-- SELECT
+--   *
+-- FROM
+--   ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "billing_detailed")}

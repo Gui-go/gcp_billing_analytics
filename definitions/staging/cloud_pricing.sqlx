@@ -5,9 +5,7 @@ config {
     name: "cloud_pricing",
     description: "",
     tags: [
-        "stage:to_be_difined",
         "lifecycle:deactive",
-        "cloud_pricing"
     ]
 }
 

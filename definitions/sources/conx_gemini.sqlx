@@ -5,7 +5,7 @@ config {
   name: "conx_gemini",
   description: "",
   tags: [
-    "lifecycle:deactive"
+    "lifecycle:active"
   ]
 }
 

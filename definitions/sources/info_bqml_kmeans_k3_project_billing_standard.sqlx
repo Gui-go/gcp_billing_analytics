@@ -9,6 +9,7 @@ config {
   ]
 }
 
-SELECT *
-FROM ML.TRAINING_INFO(MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.bqml_kmeans_k3_project_billing_standard`)
+SELECT 1 AS PLACE_HOLDER
+-- SELECT *
+-- FROM ML.TRAINING_INFO(MODEL `${dataform.projectConfig.defaultDatabase}.${"billing_" + dataform.projectConfig.vars.ENV}.bqml_kmeans_k3_project_billing_standard`)
 

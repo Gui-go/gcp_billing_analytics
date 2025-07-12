@@ -5,7 +5,7 @@ config {
  name: "agg_project_billing_standard",
  description: "Aggregated table at project level",
  tags: [
-   "lifecycle:deactive"
+   "lifecycle:active"
  ]
 }
 

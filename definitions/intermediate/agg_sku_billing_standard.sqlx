@@ -5,7 +5,7 @@ config {
     name: "agg_sku_billing_standard",
     description: "Aggregated table at SKU level",
     tags: [
-        "lifecycle:deactive"
+        "lifecycle:active"
     ]
 }
 

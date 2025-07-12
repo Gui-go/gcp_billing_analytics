@@ -10,7 +10,7 @@ config {
 }
 
 
-SELECT 0
+SELECT 0 AS PLACE_HOLDER
 
 -- SELECT *
 -- FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_project_billing_standard")}

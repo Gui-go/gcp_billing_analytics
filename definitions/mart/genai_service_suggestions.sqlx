@@ -5,7 +5,7 @@ config {
   name: "genai_service_billing_standard",
   description: "Gemini AI suggestions to optimise GCP cloud consumption",
   tags: [
-    "lifecycle:deactive"
+    "lifecycle:active"
   ]
 }
 

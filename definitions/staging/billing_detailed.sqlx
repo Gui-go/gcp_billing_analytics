@@ -5,7 +5,6 @@ config {
     name: "billing_detailed",
     description: "",
     tags: [
-        "stage:to_be_difined",
         "lifecycle:deactive"
     ]
 }
