@@ -43,3 +43,8 @@ To use this project, you will need to:
 3.  **Run Dataform:** Run the dataform pipelines to process your billing data and generate the analytics tables.
 4.  **Explore the Data:** Use BigQuery to query the data marts and explore your cloud spending. You can also connect a BI tool like Looker Studio to create interactive dashboards.
 5.  **Generate Recommendations:** Run the `genai_service_suggestions.sqlx` query to generate a detailed cost optimization report.
+
+
+
+
+
