@@ -1,0 +1,15 @@
+config {
+  type: "view",
+  database: dataform.projectConfig.defaultDatabase,
+  schema: "billing_" + dataform.projectConfig.vars.ENV,
+  name: "audit_logs_query_20260102",
+  description: "View to query audit logs for data access on 2026-01-02",
+  tags: ["audit"]
+}
+
+SELECT
+  *
+FROM
+  ${ref("cloudaudit_googleapis_com_data_access_20260102")}
+
+
