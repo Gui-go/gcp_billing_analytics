@@ -40,7 +40,7 @@ SELECT 0 AS PLACE_HOLDER
 
 -- SELECT *
 -- FROM ML.PREDICT(
---   MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`,
+--   MODEL `hub-32-dataw-dev-1.billing_dev.bqml_import_tf_project_billing_standardl`,
 --   (
 --     SELECT 2.0 AS feature
 --   )
@@ -49,8 +49,8 @@ SELECT 0 AS PLACE_HOLDER
 
 -- SELECT *
 -- FROM ML.PREDICT(
---   MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`,
---   TABLE `personalhub14.billing_dev.agg_project_billing_standard`
+--   MODEL `hub-32-dataw-dev-1.billing_dev.bqml_import_tf_project_billing_standardl`,
+--   TABLE `hub-32-dataw-dev-1.billing_dev.agg_project_billing_standard`
 -- )
 
 

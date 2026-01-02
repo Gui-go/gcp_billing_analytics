@@ -17,17 +17,17 @@ SELECT 1 AS PLACE_HOLDER
 -- FROM ${ref(dataform.projectConfig.defaultDatabase, "billing_" + dataform.projectConfig.vars.ENV, "agg_project_billing_standard")}
 
 
--- CREATE OR REPLACE MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standard`
+-- CREATE OR REPLACE MODEL `hub-32-dataw-dev-1.billing_dev.bqml_import_tf_project_billing_standard`
 -- OPTIONS (
 --     MODEL_TYPE='TENSORFLOW',
 --     --   MODEL_PATH='gs://your-unique-bucket-name-for-tf-models/text_classifier_v1/*'
---     MODEL_PATH="gs://personalhub14-bqmlimport-bucket/tensorflow/*"
+--     MODEL_PATH="gs://hub-32-dataw-dev-1-bqmlimport-bucket/tensorflow/*"
 -- )
 
--- CREATE OR REPLACE MODEL `personalhub14.billing_dev.bqml_import_tf_project_billing_standardl`
+-- CREATE OR REPLACE MODEL `hub-32-dataw-dev-1.billing_dev.bqml_import_tf_project_billing_standardl`
 -- OPTIONS (
 --   MODEL_TYPE='TENSORFLOW',
---   MODEL_PATH='gs://personalhub14-bqmlimport-bucket/tf_function1/simple_model/*'
+--   MODEL_PATH='gs://hub-32-dataw-dev-1-bqmlimport-bucket/tf_function1/simple_model/*'
 -- );
 
 
