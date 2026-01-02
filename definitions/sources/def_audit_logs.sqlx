@@ -1,6 +1,6 @@
 config {
     type: "declaration",
-    database: "hub-32-boot-dev-1",
+    database: "hub-32-boot-dev-01",
     schema: "audit_source",
     name: "cloudaudit_googleapis_com_data_access_20260102",
     description: "Audit logs for data access on 2026-01-02"
