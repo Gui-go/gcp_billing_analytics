@@ -1,11 +1,11 @@
-defaultProject: hub-32-dataw-dev-1
+defaultProject: hub-32-dataw-dev-01
 defaultLocation: US
 defaultDataset: default_dataset
 defaultAssertionDataset: dataform_assertions
 dataformCoreVersion: 3.0.0
 vars:
     ENV: "dev"
-    PROJ_BILL_DUMP: "hub-32-boot-dev-1"
+    PROJ_BILL_DUMP: "hub-32-boot-dev-01"
     DATASET_BILL_DUMP: "billing_dataset"
     BILLING_ACCOUNT: "01C187-3B1837-998842"
     GEMINI_CNX: "bq_gemini_connection"
